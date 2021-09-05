@@ -2,27 +2,30 @@
 #include <iostream>
 using namespace std;
 
-void SierpenskiTriangle(int size, char arr[][128], int x, int y);
+void SierpenskiTriangle(int size, char **arr, int x, int y);
 
 int main() {
 	int size;
 	int actualSize = 1;
 	int row, col, i, j;
+	int boardSize;
 
-	char drawingBoard[128][128];
 
-	for (i = 0; i < 128; ++i) {
-		for (j = 0; j < 128; ++j) {
-			drawingBoard[i][j] = 0;
-		}
-	}
-	cout << "Enter the number of recursions (0 - 5)\n"; 
+	cout << "Enter the number of recursions (recommended max is '8')\n"; 
 	cin >> size;
 
 	for (i = 0; i <= size; ++i) {
 		actualSize = actualSize * 2;
 	}
-
+	
+	boardSize = actualSize * 2;
+	
+	char **drawingBoard = new char*[boardSize];
+	
+	for (int cell = 0; cell < boardSize; ++cell) {
+		drawingBoard[cell] = new char[boardSize];
+	}
+ 
 	SierpenskiTriangle(actualSize, drawingBoard, 0, 0);
 
 	for (row = 0; row < actualSize; ++row) {
@@ -31,11 +34,16 @@ int main() {
 		}
 		cout << endl;
 	}
+	
+	for (int cell = 0; cell < boardSize; ++cell) {
+		delete[] drawingBoard[cell];
+	}
 
-	return 0;
+	delete[] drawingBoard;
+	return 0; 
 }
 
-void SierpenskiTriangle(int size, char arr[][128], int x, int y) {
+void SierpenskiTriangle(int size, char **arr, int x, int y) {
 	int row;
 	int col;
 	int space;
@@ -76,5 +84,3 @@ void SierpenskiTriangle(int size, char arr[][128], int x, int y) {
 		SierpenskiTriangle(size / 2, arr, x + size / 2, y + size); // right side
 	}
 }
-	
-
